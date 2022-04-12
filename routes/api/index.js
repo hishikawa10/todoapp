@@ -3,6 +3,12 @@ const items = require("../../src/items");
 
 var router = express.Router();
 
+/* タスクを登録するルーティング */
+router.post("/tasks", function (req, res, next) {
+  console.log(req.body);
+  const createTask = create.postCreateTasks(req.body);
+});
+
 /* 商品一覧を取得するルーティング */
 router.get("/items", function (req, res, next) {
   const itemsList = items.getListItem();
