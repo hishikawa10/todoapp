@@ -16,6 +16,10 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
 
     <title>Todoアプリ</title>
   </head>
@@ -24,98 +28,76 @@
     <div class="container">
       <!-- Content here -->
 
-      <div class="row">
-        <div class="col-sm-5">A</a></div>
-        <div class="col-sm-5">B</div>
+      <!-- Optional JavaScript -->
+      <button id="create-button">+追加する</button>
+      <div class="create-form" id="create-form" style="display: none">
+        <form>
+          <div class="mb-3">
+            <label for="taskName">タスク名</label>
+            <input type="text" id="taskName" name="taskName" />
+          </div>
+          <div class="mb-3">
+            <label for="deadline">期限</label>
+            <input type="text" id="deadline" name="deadline" />
+          </div>
+        </form>
+
+        <button class="display-none">キャンセル</button>
+        <button class="display-none" id="create-task">登録</button>
       </div>
     </div>
 
-    <!-- Optional JavaScript -->
-    <button id="create-button">+追加する</button>
-    <div class="create-form" id="create-form" style="display: none">
-      <form>
-        <label for="taskName">タスク名</label>
-        <input type="text" id="taskName" name="taskName" />
-        <label for="deadline">期限</label>
-        <input type="text" id="deadline" name="deadline" />
-      </form>
-    
-      <button class="display-none">キャンセル</button>
-      <button class="display-none" id="create-task">登録</button>
-
-    </div>
     <!--
-     <ul>
+
+    <ul>
       <li>
         <span>犬の散歩をする</span>
         <span>2022/4/12</span>
         <span><button class="update-button">更新</button></span>
         <span>
           <button class="delete" data-delete="犬の散歩をする">削除</button>
-          <button class="delete" data-delete="犬の散歩をする">削除</button>
-       </span>
+        </span>
       </li>
       <li>
         <span>犬のえさを購入する</span>
         <span>2022/4/12</span>
         <span><button class="update-button">更新</button></span>
-        <span><button class="delete" data-delete="犬のえさを購入する">削除</button></span>
+        <span
+          ><button class="delete" data-delete="犬のえさを購入する">
+            削除
+          </button></span
+        >
       </li>
     </ul>
-     
-    <table border="1">
-      <tr>
-        <th>タスク</th>
-        <th>期限</th>
-        <th>更新</th>
-        <th>削除</th>
-      </tr>
-
-      <tr>
-        <td>犬の散歩をする</td>
-        <td>2022/4/12</td>
-        <td><button class="update-button">更新</button></td>
-        <td>
-          <button class="delete" data-delete="犬の散歩をする">削除</button>
-        </td>
-      </tr>
-
-      <tr>
-        <td>勉強をする</td>
-        <td>2022/4/12</td>
-        <td><button class="update-button">更新</button></td>
-        <td><button class="delete" data-delete="勉強をする">削除</button></td>
-      </tr>
-    </table>
-
+    
      -->
 
     <table>
       <thead>
-          <tr>
-            <th>タスク</th>
-            <th>期限</th>
-            <th>更新</th>
-            <th>削除</th>
-          </tr>
+        <tr>
+          <th>タスク</th>
+          <th>期限</th>
+          <th>更新</th>
+          <th>削除</th>
+        </tr>
       </thead>
       <tbody>
-          <tr>
-            <td>犬の散歩をする</td>
-            <td>2022/4/12</td>
-            <td><button class="update-button">更新</button></td>
-            <td>
-              <button class="delete" data-delete="犬の散歩をする">削除</button>
-            </td>
-          </tr>
-          <tr>
-            <td>勉強をする</td>
-            <td>2022/4/12</td>
-            <td><button class="update-button">更新</button></td>
-            <td><button class="delete" data-delete="勉強をする">削除</button></td>
-          </tr>
+        <tr>
+          <td>犬の散歩をする</td>
+          <td>2022/4/12</td>
+          <td><button class="update-button">更新</button></td>
+          <td>
+            <button class="delete" data-delete="犬の散歩をする">削除</button>
+          </td>
+        </tr>
+        <tr>
+          <td>勉強をする</td>
+          <td>2022/4/12</td>
+          <td><button class="update-button">更新</button></td>
+          <td><button class="delete" data-delete="勉強をする">削除</button></td>
+        </tr>
       </tbody>
-  </table>
+    </table>
 
     <div class="update-form" id="update-form" style="display: none">
       <form>
@@ -123,22 +105,12 @@
         <input type="text" id="task" name="task" />
         <label for="deadline">期限</label>
         <input type="text" id="deadline" name="deadline" />
-
       </form>
 
       <button class="display-none">キャンセル</button>
       <button class="display-none" id="update-task">保存</button>
     </div>
 
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="comment_1">コメント</label>
-        <input type="text" class="form-control" name="comment" id="comment_1">
-      </div>
-      <button type="submit">OK</button>
-    </form>
-
-    
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -156,17 +128,43 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="../javascripts/index.js"></script>    
-     <script>       
-     $("#create-task").on("click", async function () {         
-       const data = {           
-         taskName: $("[name=task]").val(), 
-         deadline: $("[name=deadline]").val(),           
-         category: $("[name=category]").val(),         
-         };         
-         const response = await httpPost( "//" + window.location.host + "/api/tasks", data         
-         );       });     
+    <script>
+      // 削除ボタン押下時
+      $(".delete").on("click", function () {
+        const taskName = $(this).data("delete");
+        alert(`下記の内容を削除します。\n ${taskName}`);
+      });
+
+      // 新規登録ボタン押下時
+      $("#create-button").on("click", function () {
+        $("#create-form").show();
+      });
+
+      // 更新ボタン押下時
+      $(".update-button").on("click", function () {
+        $("#update-form").show();
+      });
+
+      // フォームを閉じたいとき
+      $(".display-none").on("click", function () {
+        $("#create-form").hide();
+        $("#update-form").hide();
+      });
     </script>
-    
+
+    <script src="../javascripts/index.js"></script>
+    <script>
+      $("#create-task").on("click", async function () {
+        const data = {
+          taskName: $("[name=task]").val(),
+          deadline: $("[name=deadline]").val(),
+          category: $("[name=category]").val(),
+        };
+        const response = await httpPost(
+          "//" + window.location.host + "/api/tasks",
+          data
+        );
+      });
+    </script>
   </body>
 </html>
