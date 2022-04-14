@@ -28,26 +28,237 @@
     <div class="container">
       <!-- Content here -->
 
-      <!-- Optional JavaScript -->
-      <button id="create-button">+追加する</button>
-      <div class="create-form" id="create-form" style="display: none">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">ブランド</a>
+          <button
+            type="button"
+            class="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#Navber"
+            aria-controls="Navber"
+            aria-expanded="false"
+            aria-label="ナビゲーションの切替"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="Navber">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#"
+                  >ホーム</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">リンク</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  href="#"
+                  class="nav-link dropdown-toggle"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  ドロップダウン
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">メニュー1</a></li>
+                  <li><a class="dropdown-item" href="#">メニュー2</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="#">その他</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">無効</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input
+                type="search"
+                class="form-control me-2"
+                placeholder="検索..."
+                aria-label="検索..."
+              />
+              <button
+                type="submit"
+                class="btn btn-outline-success flex-shrink-0"
+              >
+                検索
+              </button>
+            </form>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+
+      <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">タスク</th>
+              <th scope="col">期限</th>
+              <th scope="col">カテゴリ</th>
+              <th scope="col">ステータス</th>
+              <th scope="col">更新</th>
+              <th scope="col">削除</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>犬の散歩をする</td>
+              <td>2022/4/12</td>
+              <td>生活</td>
+              <td>完了</td>
+              <td><button class="update-button">更新</button></td>
+              <td>
+                <button class="delete" data-delete="犬の散歩をする">
+                  削除
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>勉強をする</td>
+              <td>2022/4/12</td>
+              <td>生活</td>
+              <td>完了</td>
+              <td><button class="update-button">更新</button></td>
+              <td>
+                <button class="delete" data-delete="勉強をする">削除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-2">
+          <button
+            type="button"
+            class="btn btn-primary mb-12"
+            data-toggle="modal"
+            data-target="#testModal"
+          >
+            追加する
+          </button>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="testModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="basicModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">リストを追加する</h5>
+              <button
+                class="display-none"
+                data-dismiss="modal"
+                aria-label="閉じる"
+              ></button>
+            </div>
+            <!-- /.modal-header -->
+            <div class="modal-body">
+              <form>
+                <label for="taskName">タスク名</label>
+                <input type="text" id="taskName" name="taskName" />
+                <label for="deadline">期限</label>
+                <input type="text" id="deadline" name="deadline" />
+                <label for="category">カテゴリ</label>
+                <select id="category" name="category">
+                  <option value="1">生活</option>
+                  <option value="2">勉強</option>
+                  <option value="3">仕事</option>
+                  <option value="4">趣味</option>
+                </select>
+              </form>
+            </div>
+            <!-- /.modal-body -->
+            <div class="modal-footer">
+              <button class="display-none" data-dismiss="modal">閉じる</button>
+              <button class="display-none" id="create-task">登録</button>
+            </div>
+            <!-- /.modal-footer -->
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </div>
+    <!-- /.container -->
+
+    <!-- Optional JavaScript -->
+
+    <!--
+<div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+       <div class="modal" tabindex="-1">モーダルのカットした部分
+
+
+<button type="button" class="btn btn-primary mb-12" data-toggle="modal" data-target="#testModal">追加する</button>
+      <button id="create-button">+追加する</button>　<div class="create-form" id="create-form" style="display: none">カット部分
         <form>
-          <div class="mb-3">
-            <label for="taskName">タスク名</label>
-            <input type="text" id="taskName" name="taskName" />
-          </div>
-          <div class="mb-3">
-            <label for="deadline">期限</label>
-            <input type="text" id="deadline" name="deadline" />
-          </div>
+          <label for="taskName">タスク名</label>
+          <input type="text" id="taskName" name="taskName" />
+          <label for="deadline">期限</label>
+          <input type="text" id="deadline" name="deadline" />
+          <label for="category">カテゴリ</label>
+          <select id="category" name="category">
+            <option value="1">生活</option>
+            <option value="2">勉強</option>
+            <option value="3">仕事</option>
+            <option value="4">趣味</option>
+          </select>
         </form>
 
         <button class="display-none">キャンセル</button>
         <button class="display-none" id="create-task">登録</button>
-      </div>
-    </div>
+       </div>
+              <!- /.create-form ->
 
-    <!--
 
     <ul>
       <li>
@@ -72,44 +283,31 @@
     
      -->
 
-    <table>
-      <thead>
-        <tr>
-          <th>タスク</th>
-          <th>期限</th>
-          <th>更新</th>
-          <th>削除</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>犬の散歩をする</td>
-          <td>2022/4/12</td>
-          <td><button class="update-button">更新</button></td>
-          <td>
-            <button class="delete" data-delete="犬の散歩をする">削除</button>
-          </td>
-        </tr>
-        <tr>
-          <td>勉強をする</td>
-          <td>2022/4/12</td>
-          <td><button class="update-button">更新</button></td>
-          <td><button class="delete" data-delete="勉強をする">削除</button></td>
-        </tr>
-      </tbody>
-    </table>
-
     <div class="update-form" id="update-form" style="display: none">
       <form>
         <label for="task">タスク名</label>
         <input type="text" id="task" name="task" />
         <label for="deadline">期限</label>
         <input type="text" id="deadline" name="deadline" />
+        <label for="category">カテゴリ</label>
+        <select id="category" name="category">
+          <option value="1">生活</option>
+          <option value="2">勉強</option>
+          <option value="3">仕事</option>
+          <option value="4">趣味</option>
+        </select>
+        <label for="status">ステータス</label>
+        <select id="status" name="status">
+          <option value="1">完了</option>
+          <option value="2">作業中</option>
+          <option value="3">未実施</option>
+        </select>
       </form>
 
       <button class="display-none">キャンセル</button>
       <button class="display-none" id="update-task">保存</button>
     </div>
+    <!--update-form-->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -127,6 +325,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="../javascripts/index.js"></script>
 
     <script>
       // 削除ボタン押下時
@@ -137,7 +336,7 @@
 
       // 新規登録ボタン押下時
       $("#create-button").on("click", function () {
-        $("#create-form").show();
+        $("#modal").show();
       });
 
       // 更新ボタン押下時
@@ -150,20 +349,24 @@
         $("#create-form").hide();
         $("#update-form").hide();
       });
-    </script>
 
-    <script src="../javascripts/index.js"></script>
-    <script>
+      //登録ボタン押下時
       $("#create-task").on("click", async function () {
-        const data = {
+        //リクエストデータをフォームから取得
+        const requestData = {
           taskName: $("[name=task]").val(),
           deadline: $("[name=deadline]").val(),
           category: $("[name=category]").val(),
         };
+
+        //新規登録APIを実行
         const response = await httpPost(
           "//" + window.location.host + "/api/tasks",
-          data
+          requestData
         );
+
+        //画面をリロード
+        windouw.location.reload();
       });
     </script>
   </body>
