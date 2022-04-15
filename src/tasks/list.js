@@ -1,13 +1,25 @@
-var express = require("express");
-var router = express.Router();
+const mysql = require("mysql2/promise");
+const config = require("../config.js");
 
-const tasks = require("../../src/tasks.js");
+/**
+ * タスクを一覧取得する API
+ *
+ * @returns レスポンス JSON
+ */
+getTasks = async function () {
+  let connection = null;
+  try {
+    connection = await mysql.createConnection(config.dbSetting);
+    // ここに SQL を記述する
+    const sql =
+      "SELECT t_task.id, t_task.category_id, m_category.category_name, t_task.task_name, t_task.deadline, t_task.task_status, t_task.updated_at, t_task.created_at FROM t_task LEFT JOIN m_category ON t_task.category_id = m_category.id;";
+    const [rows, fields] = await connection.query(sql);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    connection.end();
+  }
+};
 
-// 一覧取得の処理
-/* タスク一覧を取得するルーティング*/
-router.get("/tasks", async function (req, res, next) {
-  const getTasks = await tasks.getTasks();
-  res.send(getTasks);
-});
-
-module.exports = router;
+exports.getTasks = getTasks;

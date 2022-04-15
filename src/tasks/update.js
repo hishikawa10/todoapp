@@ -1,14 +1,33 @@
-var express = require("express");
-var router = express.Router();
+const mysql = require("mysql2/promise");
+const config = require("../config.js");
 
-const tasks = require("../../src/tasks.js");
+/**
+ * タスクを１件更新する API
+ *
+ * @returns レスポンス JSON
+ */
+patchTasksId = async function (id, body) {
+  let connection = null;
+  try {
+    connection = await mysql.createConnection(config.dbSetting);
+    // ここに SQL を記述する
+    const sql =
+      "UPDATE t_task SET task_name=?, deadline=?, category_id=?, task_status=?, updated_at=? WHERE id=?;";
+    let d = [
+      body.taskName,
+      body.deadline,
+      body.category,
+      body.status,
+      new Date(),
+      id,
+    ];
+    const [rows, fields] = await connection.query(sql, d);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    connection.end();
+  }
+};
 
-// 更新処理
-/* タスクを1件更新するルーティング */
-router.patch("/tasks/:id", async function (req, res, next) {
-  console.log(req.param.id);
-  const patchTasksId = await tasks.patchTasksId(req.params.id, req.body);
-  res.send(patchTasksId);
-});
-
-module.exports = router;
+exports.patchTasksId = patchTasksId;

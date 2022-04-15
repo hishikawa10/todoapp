@@ -1,14 +1,30 @@
 // 新規登録処理
 
-var express = require("express");
-var router = express.Router();
+const mysql = require("mysql2/promise");
+const config = require("../config.js");
 
-const tasks = require("../../src/tasks.js");
+/**
+ * タスクを新規登録する API
+ *
+ * @returns レスポンス JSON
+ */
+postTasks = async function (body) {
+  let connection = null;
+  try {
+    connection = await mysql.createConnection(config.dbSetting);
+    // ここに SQL を記述する
+    const sql =
+      "INSERT INTO todoapp.t_task (task_name, deadline, category_id) VALUES (?,?,?);";
+    let d = [body.taskName, body.deadline, body.category];
+    const [rows, fields] = await connection.query(sql, d);
 
-/* タスクを登録するルーティング */
-router.post("/tasks", async function (req, res, next) {
-  const postTasks = await tasks.postTasks(req.body);
-  res.send(postTasks);
-});
+    // console.log(rows);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    connection.end();
+  }
+};
 
-module.exports = router;
+exports.postTasks = postTasks;

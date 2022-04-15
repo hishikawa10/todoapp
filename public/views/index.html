@@ -353,7 +353,7 @@
       //登録ボタン押下時
       $("#create-task").on("click", async function () {
         //リクエストデータをフォームから取得
-        const requestData = {
+        const data = {
           taskName: $("[name=task]").val(),
           deadline: $("[name=deadline]").val(),
           category: $("[name=category]").val(),
@@ -362,9 +362,9 @@
         //新規登録APIを実行
         const response = await httpPost(
           "//" + window.location.host + "/api/tasks",
-          requestData
+          data
         );
-
+        console.log(response);
         //画面をリロード
         windouw.location.reload();
       });

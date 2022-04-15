@@ -1,13 +1,27 @@
-var express = require("express");
-var router = express.Router();
+const mysql = require("mysql2/promise");
+const config = require("../config.js");
 
-const tasks = require("../../src/tasks.js");
+/**
+ * タスクを１件削除する API
+ *
+ * @returns レスポンス JSON
+ */
+deleteTasksId = async function (id) {
+  let connection = null;
+  try {
+    connection = await mysql.createConnection(config.dbSetting);
+    // ここに SQL を記述する
+    const sql = "DELETE from t_task WHERE id = ?;";
+    let d = [id];
+    const [rows, fields] = await connection.query(sql, d);
 
-// 1件のデータ削除処理
-/* タスク一覧を削除するルーティング */
-router.delete("/tasks/:id", async function (req, res, next) {
-  const deleteTasksId = await tasks.deleteTasksId(req.params.id);
-  res.send(deleteTasksId);
-});
+    // console.log(rows);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    connection.end();
+  }
+};
 
-module.exports = router;
+exports.deleteTasksId = deleteTasksId;
