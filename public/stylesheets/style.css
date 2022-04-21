@@ -36,3 +36,42 @@ li.category-red {
   border-left-color: red;
   border-left-width: 20px;
 }
+
+tr {
+  list-style-type: none;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 10px;
+}
+
+tr.category-orange {
+  border-left-color: orange;
+  border-left-width: 20px;
+}
+
+tr.category-green {
+  border-left-color: green;
+  border-left-width: 20px;
+}
+
+tr.category-blue {
+  border-left-color: blue;
+  border-left-width: 20px;
+}
+
+tr.category-red {
+  border-left-color: red;
+  border-left-width: 20px;
+}
+
+td.seikatu {
+  background-color: orange;
+}
+td.bennkyou {
+  background-color: green;
+}
+td.shigoto {
+  background-color: blue;
+}
+td.syumi {
+  background-color: red;
+}

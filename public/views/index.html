@@ -51,36 +51,71 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">リンク</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  href="#dropdown-menu"
-                  class="nav-link dropdown-toggle"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                <!--<a class="nav-link" href="#">リンク</a>-->
+                <!--<div class="row mb-5">-->
+                <!--<div class="col-2">-->
+                <button
+                  type="button"
+                  class="btn btn-primary mb-12"
+                  data-toggle="modal"
+                  data-target="#testModal"
                 >
-                  ドロップダウン
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">メニュー1</a></li>
-                  <li><a class="dropdown-item" href="#">メニュー2</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="#">その他</a></li>
-                </ul>
+                  追加する
+                </button>
+                <!--</div>-->
+                <!--</div>-->
               </li>
+
+              <!-- 
+              <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Hello, John Doe
+            </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="#">Messages</a></li>
+                  <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+              </div>
+-->
+              <div class="dropdown">
+                <li class="nav-item">
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    ドロップダウン
+                  </button>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <li><a class="dropdown-item" href="#">メニュー1</a></li>
+                    <li><a class="dropdown-item" href="#">メニュー2</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#">その他</a></li>
+                  </ul>
+                </li>
+              </div>
+
               <li class="nav-item">
                 <a class="nav-link disabled">無効</a>
               </li>
             </ul>
             <form class="d-flex">
               <input
-                type="search"
-                class="form-control me-2"
-                placeholder="検索..."
-                aria-label="検索..."
+                class="form-control form-control-dark"
+                type="text"
+                placeholder="Search"
+                aria-label="Search"
               />
               <button
                 type="submit"
@@ -95,7 +130,9 @@
         <!-- /.container-fluid -->
       </nav>
 
-      <div class="modal" tabindex="-1" role="dialog">
+      <!--
+
+<div class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -127,25 +164,32 @@
           </div>
         </div>
       </div>
-      <!--
-      <ul class="list-group" id="task-list"></ul>
-       
-    -->
+
+            <div class="list-responsive">
+        <ul class="list-group" id="task-list"></ul>
+      </div>　表記変更用
+     -->
+
       <div class="table-responsive">
         <table class="table">
           <thead>
-            <tr>
-              <th>タスク</th>
-              <th>期限</th>
-              <th>更新</th>
-              <th>削除</th>
+            <tr
+              class="text-center"
+              style="background-color: hsl(0.15turn, 50%, 75%)"
+            >
+              <th scope="col">カテゴリー</th>
+              <th scope="col">ステータス</th>
+              <th scope="col">タスク</th>
+              <th scope="col">期限</th>
+              <th scope="col">更新</th>
+              <th scope="col">削除</th>
             </tr>
           </thead>
           <tbody id="task-list"></tbody>
         </table>
       </div>
 
-      <div class="row mb-5">
+      <!--<div class="row mb-5">
         <div class="col-2">
           <button
             type="button"
@@ -156,7 +200,7 @@
             追加する
           </button>
         </div>
-      </div>
+      </div>-->
       <div
         class="modal fade"
         id="testModal"
@@ -318,21 +362,34 @@
         const response = await httpGet(
           "//" + window.location.host + `/api/tasks`
         );
-
+        console.log(response);
         const list = response.map((item) => {
           const date = new Date(item.deadline);
           const year = date.getFullYear();
           const month = ("0" + (date.getMonth() + 1)).slice(-2);
           const day = ("0" + date.getDate()).slice(-2);
           const deadlineVal = `${year}年${month}月${day}日`;
+          var cate = "syokichi";
+          if (item.category_name == "生活") {
+            var cate = "seikatu";
+          } else if (item.category_name == "勉強") {
+            var cate = "bennkyou";
+          } else if (item.category_name == "仕事") {
+            var cate = "shigoto";
+          } else {
+            var cate = "syumi";
+          }
+          console.log(cate);
+          console.log(item.category_name);
           //リストを表示
-          console.log(deadlineVal);
           return `
 
-          <tr>
+          <tr class="table-active">
+            <td class=${cate}>${item.category_name}${cate}</td>
+            <td>${item.task_status}</td>
             <td>${item.task_name}</td>
             <td>${deadlineVal}</td>
-            <td><button id="update-button" data-toggle="modal"
+            <td> <button id="update-button" data-toggle="modal"
                 data-target="#testModal2" data-id=${item.id}>更新</button></td>
             <td><button id="delete-button" data-id=${item.id} data-delete=${item.task_name}>削除</button></td>
           </tr>`;
@@ -340,8 +397,7 @@
         $("tbody#task-list").append(list);
       });
 
-      /** `
-      <li class="list-group-item category">
+      /**`  <li class="list-group-item category-blue align-items-center">
         <span>${item.task_name}</span>
         <span>${item.deadline}</span>
         <span><button id="update-button" data-toggle="modal"
@@ -369,14 +425,14 @@
         }
       });
 
-      // 新規登録ボタン押下時
+      /** 新規登録ボタン押下時 （modal実装時には不要）
       $("#create-button").on("click", function () {
-        $("#modal").show();
-      });
+      $("#modal").show();
+      });**/
 
       // 更新ボタン押下時
       $(document).on("click", "#update-button", async function () {
-        $("#modal").show();
+        //$("#modal").show();//不要
         const id = $(this).data("id");
         const response = await httpGet(
           "//" + window.location.host + `/api/tasks/${id}`
