@@ -89,6 +89,7 @@
                     class="btn btn-secondary dropdown-toggle"
                     type="button"
                     id="dropdownMenuButton"
+                    id="sort"
                     data-toggle="dropdown"
                     aria-expanded="false"
                   >
@@ -110,8 +111,29 @@
                 <a class="nav-link disabled">無効</a>
               </li>
             </ul>
-            <form class="d-flex">
+
+            <form method="get" class="d-flex">
+              <label for="idkennsaku" class="form-label"
+                >データリストの例</label
+              >
               <input
+                type="search"
+                size="30"
+                class="form-control"
+                list="datalistOptions"
+                placeholder="Search"
+                aria-label="Search"
+                id="idkennsaku"
+                required
+              />
+              <datalist id="datalistOptions" name="datalistOptions">
+                <option value="1">生活</option>
+                <option value="2">勉強</option>
+                <option value="3">仕事</option>
+                <option value="4">趣味</option>
+              </datalist>
+
+              <!--<input
                 class="form-control form-control-dark"
                 type="text"
                 placeholder="Search"
@@ -122,7 +144,7 @@
                 class="btn btn-outline-success flex-shrink-0"
               >
                 検索
-              </button>
+              </button>-->
             </form>
           </div>
           <!-- /.navbar-collapse -->
@@ -177,10 +199,18 @@
               class="text-center"
               style="background-color: hsl(0.15turn, 50%, 75%)"
             >
-              <th scope="col">カテゴリー</th>
-              <th scope="col">ステータス</th>
-              <th scope="col">タスク</th>
-              <th scope="col">期限</th>
+              <th scope="col" id="1" data-asc="" class="col2 sort" sortable>
+                カテゴリー<i class="fa fa-sort"></i>
+              </th>
+              <th scope="col" id="3" data-asc="" class="col2 sort" sortable>
+                ステータス<i class="fa fa-sort"></i>
+              </th>
+              <th scope="col" id="0" data-asc="" class="col4 sort" sortable>
+                タスク<i class="fa fa-sort"></i>
+              </th>
+              <th scope="col" id="2" data-asc="" class="col2 sort" sortable>
+                期限<i class="fa fa-sort"></i>
+              </th>
               <th scope="col">更新</th>
               <th scope="col">削除</th>
             </tr>
@@ -314,6 +344,16 @@
                 <option value="2">作業中</option>
                 <option value="3">未実施</option>
               </select>
+              <label for="exampleColorInput" class="form-label"
+                >カラーピッカー</label
+              >
+              <input
+                type="color"
+                class="form-control form-control-color"
+                id="exampleColorInput"
+                value="#563d7c"
+                title="色を選択してください"
+              />
             </form>
           </div>
           <!-- /.modal-body -->
@@ -362,7 +402,7 @@
         const response = await httpGet(
           "//" + window.location.host + `/api/tasks`
         );
-        console.log(response);
+        //console.log(response);
         const list = response.map((item) => {
           const date = new Date(item.deadline);
           const year = date.getFullYear();
@@ -379,12 +419,12 @@
           } else {
             var cate = "syumi";
           }
-          console.log(cate);
-          console.log(item.category_name);
+          //console.log(cate);
+          //console.log(item.category_name);
           //リストを表示
           return `
 
-          <tr class="table-active">
+          <tr class="table-active text-center">
             <td class=${cate}>${item.category_name}${cate}</td>
             <td>${item.task_status}</td>
             <td>${item.task_name}</td>
@@ -490,6 +530,75 @@
         //画面をリロード
         window.location.reload();
       });
+
+      //検索機能
+      $("#idkennsaku").on("search", async function () {
+        const response = await httpGet(
+          "//" + window.location.host + `/api/tasks`
+        );
+        console.log(response);
+        const list = response.map((item) => {
+          /**if (item.category_name == "生活") {
+            get = "category_name=生活";
+            console.log("category_id=1");
+          } else if (item.category_name == "勉強") {
+            //get = "category_id=2";
+            console.log("category_id=2");
+          } else if (item.category_name == "仕事") {
+            //get = "category_id=3";
+            console.log("category_id=3");
+          } else {
+            //get = "category_id=4";
+            console.log("category_id=4");
+          }**/
+          //リストを表示
+          return `
+
+          <tr class="table-active text-center">
+            <td class=>${item.get}</td>
+            <!--<td>${item.task_status}</td>
+            <td>${item.task_name}</td>
+            <td>${item.deadline}</td>
+            <td> <button id="update-button" data-toggle="modal"
+                data-target="#testModal2" data-id=${item.id}>更新</button></td>
+            <td><button id="delete-button" data-id=${item.id} data-delete=${item.task_name}>削除</button></td>-->
+          </tr>`;
+        });
+        $("tbody#task-list").append(list);
+      });
+
+      /** ソート
+      $(".sort").on("click", async function () {
+        var sort = Number($(this).attr("id"));
+        var asc = $(this).data("asc");
+        $("th").data("asc", "");
+        if (asc == "" || asc == 0) {
+          asc = 1;
+          $(this).data("asc", 1);
+        } else {
+          asc = 0;
+          $(this).data("asc", 0);
+        }
+        const response = await httpGet(
+          "//" +
+            window.location.host +
+            "/api/tasks" +
+            "/" +
+            id +
+            "/" +
+            sort +
+            "/" +
+            asc
+        );
+        var tbl = document.getElementById("tasks");
+
+        tbllen = tbl.childNodes.length;
+        for (var i = 0; i < tbllen; i++) {
+          var row = tbl.childNodes[0];
+          tbl.removeChild(row);
+        }
+        $("tbody#task-list").append(list);
+      });**/
     </script>
   </body>
 </html>

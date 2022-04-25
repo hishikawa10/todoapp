@@ -33,5 +33,12 @@ router.patch("/tasks/:id", async function (req, res, next) {
   const patchTasksId = await tasks.patchTasksId(req.params.id, req.body);
   res.send(patchTasksId);
 });
+//タスクを検索するルーティング
+router.get("/tasks/:category_name", async function (req, res, next) {
+  const getTaskcategory_name = await tasks.getTaskcategory_name(
+    req.params.category_name
+  );
+  res.send(getTaskcategory_name);
+});
 
 module.exports = router;
