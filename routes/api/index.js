@@ -41,4 +41,14 @@ router.get("/tasks/:category_name", async function (req, res, next) {
   res.send(getTaskcategory_name);
 });
 
+/* 並び替えられたタスクを取得するルーティング */
+router.get("/tasks/:id/:sort/:asc", async function (req, res, next) {
+  const getSortedTasks = await tasks.getSortedTasks(
+    req.params.id,
+    req.params.sort,
+    req.params.asc
+  );
+  res.send(getSortedTasks);
+});
+
 module.exports = router;

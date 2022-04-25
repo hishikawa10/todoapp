@@ -534,7 +534,7 @@
       //検索機能
       $("#idkennsaku").on("search", async function () {
         const response = await httpGet(
-          "//" + window.location.host + `/api/tasks`
+          "//" + window.location.host + "/api/tasks"
         );
         console.log(response);
         const list = response.map((item) => {
@@ -567,9 +567,9 @@
         $("tbody#task-list").append(list);
       });
 
-      /** ソート
+      //ソート;
       $(".sort").on("click", async function () {
-        var sort = Number($(this).attr("id"));
+        var sort = $(this).attr("id");
         var asc = $(this).data("asc");
         $("th").data("asc", "");
         if (asc == "" || asc == 0) {
@@ -598,7 +598,7 @@
           tbl.removeChild(row);
         }
         $("tbody#task-list").append(list);
-      });**/
+      });
     </script>
   </body>
 </html>

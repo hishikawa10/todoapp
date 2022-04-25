@@ -122,6 +122,75 @@ patchTasksId = async function (id, body) {
   }
 };
 
+//ソートするルーティング
+getSortedTasks = async function (sort, asc) {
+  let connection = null;
+  try {
+    console.log("here1");
+    console.log(sort);
+    console.log(asc);
+    connection = await mysql.createConnection(config.dbSetting);
+    var sql = "";
+    switch (sort) {
+      case "0":
+        if (asc == 0) {
+          console.log("here2");
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.task_name DESC;";
+        } else {
+          console.log("here3");
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.task_name ASC;";
+        }
+        break;
+      case "1":
+        if (asc == 0) {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_category.category_name DESC;";
+        } else {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_category.category_name ASC;";
+        }
+        break;
+      case "2":
+        if (asc == 0) {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.deadline DESC;";
+        } else {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.deadline ASC;";
+        }
+        break;
+      case "3":
+        if (asc == 0) {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.updated_at DESC;";
+        } else {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.updated_at ASC;";
+        }
+        break;
+      case "4":
+        if (asc == 0) {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_status.status_name DESC;";
+        } else {
+          sql =
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_status.status_name ASC;";
+        }
+        break;
+    }
+    console.log(sql);
+    const [rows, fields] = await connection.query(sql);
+    console.log("here5");
+    return rows;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    connection.end();
+  }
+};
+
 getTaskcategory_name = async function () {
   let connection = null;
   try {
