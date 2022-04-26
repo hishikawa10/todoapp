@@ -27,7 +27,6 @@
   <body>
     <div class="container">
       <!-- Content here -->
-
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Todoアプリ</a>
@@ -46,9 +45,7 @@
           <div class="collapse navbar-collapse" id="Navber">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"
-                  >ホーム</a
-                >
+                <a class="nav-link active" href="#">ホーム</a>
               </li>
               <li class="nav-item">
                 <!--<a class="nav-link" href="#">リンク</a>-->
@@ -99,23 +96,48 @@
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <li><a class="dropdown-item" href="#">メニュー1</a></li>
-                    <li><a class="dropdown-item" href="#">メニュー2</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#" disabled
+                        ><span
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="visually-hidden">調整中...</span></a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#" disable
+                        ><span
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="visually-hidden">調整中...</span></a
+                      >
+                    </li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">その他</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#" disable
+                        ><span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        未定...</a
+                      >
+                    </li>
                   </ul>
                 </li>
               </div>
 
               <li class="nav-item">
-                <a class="nav-link disabled">無効</a>
+                <button type="button" class="btn btn-link">Link</button>
               </li>
             </ul>
 
-            <form method="get" class="d-flex">
-              <label for="idkennsaku" class="form-label"
-                >データリストの例</label
-              >
+            <form action="http://localhost:3333/views/" method="get">
+              <label for="id" class="form-label"></label>
               <input
                 type="search"
                 size="30"
@@ -123,14 +145,19 @@
                 list="datalistOptions"
                 placeholder="Search"
                 aria-label="Search"
-                id="idkennsaku"
+                id="id"
                 required
-              />
+              /><button
+                type="submit"
+                class="btn btn-outline-success flex-shrink-0"
+              >
+                検索
+              </button>
               <datalist id="datalistOptions" name="datalistOptions">
-                <option value="1">生活</option>
-                <option value="2">勉強</option>
-                <option value="3">仕事</option>
-                <option value="4">趣味</option>
+                <option value="生活">生活</option>
+                <option value="勉強">勉強</option>
+                <option value="仕事">仕事</option>
+                <option value="趣味">趣味</option>
               </datalist>
 
               <!--<input
@@ -154,7 +181,7 @@
 
       <!--
 
-<div class="modal" tabindex="-1" role="dialog">
+              <div class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -351,7 +378,7 @@
                 type="color"
                 class="form-control form-control-color"
                 id="exampleColorInput"
-                value="#563d7c"
+                value="#e38182"
                 title="色を選択してください"
               />
             </form>
@@ -377,6 +404,32 @@
     </div>
     <!--update-form-->
 
+    <!--<body class="text-center">
+      <main class="form-signin">
+        <form>
+          <img class="mb-4" alt="" width="72" height="57" loading="lazy">
+          <h1 class="h3 mb-3 fw-normal">サインインをどうぞ</h1>
+          
+          <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Emailアドレス</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="パスワード">
+            <label for="floatingPassword">パスワード</label>
+          </div>
+    
+          <div class="form-check mb-3">
+            <label>
+              <input type="checkbox" value="remember-me"> 状態を記憶する
+            </label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">サインイン</button>
+          <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+       </form>
+      </main>
+    </head>-->
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -396,13 +449,30 @@
     <script src="../javascripts/index.js"></script>
 
     <script>
-      // 一覧取得
-      $(document).ready(async function () {
-        //一覧取得を実行
+      // 更新ボタン押下時
+      $(document).on("click", "#update-button", async function () {
+        //$("#modal").show();//不要
+        const id = $(this).data("id");
         const response = await httpGet(
-          "//" + window.location.host + `/api/tasks`
+          "//" + window.location.host + `/api/tasks/${id}`
         );
-        //console.log(response);
+
+        //日付けを　xxxx-xx-xxに変換
+        const date = new Date(response[0].deadline);
+        const year = date.getFullYear();
+        const month = ("0" + (date.getMonth() + 1)).slice(-2);
+        const day = ("0" + date.getDate()).slice(-2);
+        const deadlineVal = `${year}-${month}-${day}`;
+
+        //初期値をセット
+        $("#update-form input[name=id]").val(response[0].id);
+        $("#update-form input[name=task]").val(response[0].task_name);
+        $("#update-form input[name=deadline]").val(deadlineVal);
+        $("#update-form select[name=category]").val(response[0].category_id);
+        $("#update-form select[name=status]").val(response[0].task_status);
+      });
+
+      function createtable(response) {
         const list = response.map((item) => {
           const date = new Date(item.deadline);
           const year = date.getFullYear();
@@ -424,17 +494,27 @@
           //リストを表示
           return `
 
-          <tr class="table-active text-center">
-            <td class=${cate}>${item.category_name}${cate}</td>
-            <td>${item.task_status}</td>
-            <td>${item.task_name}</td>
-            <td>${deadlineVal}</td>
-            <td> <button id="update-button" data-toggle="modal"
-                data-target="#testModal2" data-id=${item.id}>更新</button></td>
-            <td><button id="delete-button" data-id=${item.id} data-delete=${item.task_name}>削除</button></td>
-          </tr>`;
+            <tr class="table-active text-center">
+              <td class=${cate}>${item.category_name}${cate}</td>
+              <td>${item.task_status}</td>
+              <td>${item.task_name}</td>
+              <td>${deadlineVal}</td>
+              <td> <button id="update-button" data-toggle="modal"
+                  data-target="#testModal2" data-id=${item.id}>更新</button></td>
+              <td><button id="delete-button" data-id=${item.id} 
+                data-delete=${item.task_name}>削除</button></td>
+            </tr>`;
         });
         $("tbody#task-list").append(list);
+      }
+      // 一覧取得
+      $(document).ready(async function () {
+        //一覧取得を実行
+        const response = await httpGet(
+          "//" + window.location.host + `/api/tasks`
+        );
+        //console.log(response);
+        createtable(response);
       });
 
       /**`  <li class="list-group-item category-blue align-items-center">
@@ -469,29 +549,6 @@
       $("#create-button").on("click", function () {
       $("#modal").show();
       });**/
-
-      // 更新ボタン押下時
-      $(document).on("click", "#update-button", async function () {
-        //$("#modal").show();//不要
-        const id = $(this).data("id");
-        const response = await httpGet(
-          "//" + window.location.host + `/api/tasks/${id}`
-        );
-
-        //日付けを　xxxx-xx-xxに変換
-        const date = new Date(response[0].deadline);
-        const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        const deadlineVal = `${year}-${month}-${day}`;
-
-        //初期値をセット
-        $("#update-form input[name=id]").val(response[0].id);
-        $("#update-form input[name=task]").val(response[0].task_name);
-        $("#update-form input[name=deadline]").val(deadlineVal);
-        $("#update-form select[name=category]").val(response[0].category_id);
-        $("#update-form select[name=status]").val(response[0].task_status);
-      });
 
       //保存ボタン押下時
       $("#update-task").on("click", async function () {
@@ -538,19 +595,19 @@
         );
         console.log(response);
         const list = response.map((item) => {
-          /**if (item.category_name == "生活") {
+          if (item.category_name == "生活") {
             get = "category_name=生活";
             console.log("category_id=1");
           } else if (item.category_name == "勉強") {
-            //get = "category_id=2";
+            get = "category_id=2";
             console.log("category_id=2");
           } else if (item.category_name == "仕事") {
-            //get = "category_id=3";
+            get = "category_id=3";
             console.log("category_id=3");
           } else {
-            //get = "category_id=4";
+            get = "category_id=4";
             console.log("category_id=4");
-          }**/
+          }
           //リストを表示
           return `
 
@@ -567,7 +624,7 @@
         $("tbody#task-list").append(list);
       });
 
-      //ソート;
+      //ソート
       $(".sort").on("click", async function () {
         var sort = $(this).attr("id");
         var asc = $(this).data("asc");
@@ -580,24 +637,16 @@
           $(this).data("asc", 0);
         }
         const response = await httpGet(
-          "//" +
-            window.location.host +
-            "/api/tasks" +
-            "/" +
-            id +
-            "/" +
-            sort +
-            "/" +
-            asc
+          "//" + window.location.host + "/api/tasks" + "/" + sort + "/" + asc
         );
-        var tbl = document.getElementById("tasks");
+        var tbl = document.getElementById("task-list");
 
         tbllen = tbl.childNodes.length;
         for (var i = 0; i < tbllen; i++) {
           var row = tbl.childNodes[0];
           tbl.removeChild(row);
         }
-        $("tbody#task-list").append(list);
+        createtable(response);
       });
     </script>
   </body>

@@ -122,7 +122,7 @@ patchTasksId = async function (id, body) {
   }
 };
 
-//ソートするルーティング
+//ソート API
 getSortedTasks = async function (sort, asc) {
   let connection = null;
   try {
@@ -136,47 +136,47 @@ getSortedTasks = async function (sort, asc) {
         if (asc == 0) {
           console.log("here2");
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.task_name DESC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.task_name DESC;";
         } else {
           console.log("here3");
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.task_name ASC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.task_name ASC;";
         }
         break;
       case "1":
         if (asc == 0) {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_category.category_name DESC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY m_category.category_name DESC;";
         } else {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_category.category_name ASC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY m_category.category_name ASC;";
         }
         break;
       case "2":
         if (asc == 0) {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.deadline DESC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.deadline DESC;";
         } else {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.deadline ASC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.deadline ASC;";
         }
         break;
       case "3":
         if (asc == 0) {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.updated_at DESC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.updated_at DESC;";
         } else {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY t_task.updated_at ASC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.updated_at ASC;";
         }
         break;
       case "4":
         if (asc == 0) {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_status.status_name DESC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.task_status DESC;";
         } else {
           sql =
-            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.category_id inner join todoapp.m_user ON t_task.id = m_user.id inner join todoapp.m_status ON t_task.status_id = m_status.status_id WHERE t_task.id = ? ORDER BY m_status.status_name ASC;";
+            "SELECT * FROM todoapp.t_task inner join todoapp.m_category ON t_task.category_id = m_category.id ORDER BY t_task.task_status ASC;";
         }
         break;
     }
@@ -214,3 +214,4 @@ exports.deleteTasksId = deleteTasksId;
 exports.getTasksId = getTasksId;
 exports.patchTasksId = patchTasksId;
 exports.getTaskcategory_name = getTaskcategory_name;
+exports.getSortedTasks = getSortedTasks;
